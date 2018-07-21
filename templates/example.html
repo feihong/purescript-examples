@@ -23,8 +23,14 @@
 <script>
 const url = 'ws://' + document.location.host + '/reload'
 const socket = new WebSocket(url)
-socket.addEventListener('close', () => console.log('Websocket was closed'))
-socket.addEventListener('message', () => window.location.reload(true))
+const key = '{{ key }}'
+socket.addEventListener('open', () => console.log('Opened'))
+socket.addEventListener('close', () => console.log('Closed'))
+socket.addEventListener('message', mesg => {
+  if (mesg.data === key) {
+    window.location.reload(true)
+  }
+})
 </script>
 
 {% endblock %}

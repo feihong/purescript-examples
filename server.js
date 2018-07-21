@@ -68,13 +68,15 @@ app.get('/example/:name', async (req, res) => {
     let pursPath = path.join(examplesDir, example)
     let dirname = path.dirname(example)
     let basename = path.basename(example, '.purs')    
-    let jsPath = path.join(examplesDir, dirname, basename + '.bs.js')
+    let jsPath = './' + path.join(outputDir, dirname, basename, 'index.js')    
     // Read the file, error will be raised if it doesn't exist
     let text = await fs.readFile(pursPath, 'utf8')
-    // let output = await runCommand('pulp run -m' + basename)
-    let output = 'hello world'
+    // You can't run the file directly because the generated JS file doesn't
+    // invoke its own main() function.
+    let output = await runCommand(`node -e "require('${jsPath}').main()"`)
     res.render('example.html', {
       example,
+      key: basename,
       output: output.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;'),
       description: getDescription(text),
     })
@@ -82,6 +84,9 @@ app.get('/example/:name', async (req, res) => {
     // File doesn't exist, serve 404
     if (err.code === 'ENOENT') {
       res.status(404).send('No such example found')
+    } else {
+      console.log(err)
+      res.status(500).send('Internal error')
     }
   }
 })
@@ -98,8 +103,9 @@ const listener = app.listen(process.env.PORT || 8000, () => {
 
   fs.watch(outputDir, {recursive: true}, (eventType, filename) => {
     if (eventType === 'change' && path.basename(filename) === 'index.js') {
-      console.log(`Changed: ${filename}`)
-      // sockets.forEach(socket => socket.send('reload'))
+      let key = path.dirname(filename)
+      console.log(`Changed: ${key}`)
+      sockets.forEach(socket => socket.send(key))
     }
   })
 })

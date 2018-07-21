@@ -15,14 +15,10 @@ import Effect.Random (randomInt)
 randomHanzi :: Effect String
 randomHanzi = do 
   n <- randomInt 0x4e00 0x9fff
-  n 
-    # fromCharCode 
-    # fromMaybe '?'
-    # singleton
-    # pure
+  n # fromCharCode # fromMaybe '?' # singleton # pure
 
 main :: Effect Unit
 main = do
   forE 1 10 \_ -> do 
     h <- randomHanzi
-    log h 
+    log h
