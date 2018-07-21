@@ -6,6 +6,10 @@
 
 ## Commands
 
+Build and run a particular program, e.g. RandomHanzi
+
+    pulp run -m RandomHanzi
+
 Install dependencies
 
     psc-package install
@@ -13,10 +17,6 @@ Install dependencies
 Install a particular package, e.g. purescript-strings
 
     psc-package install strings
-
-Build and run 
-
-    pulp run
 
 Build and run on change
 
