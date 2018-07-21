@@ -1,3 +1,6 @@
+{-
+Print some random hanzi.
+-}
 module RandomHanzi where
 
 import Prelude
@@ -22,4 +25,4 @@ main :: Effect Unit
 main = do
   forE 1 10 \_ -> do 
     h <- randomHanzi
-    log h
+    log h 

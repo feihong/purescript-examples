@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}
+
+{% block title %}PureScript Examples{% endblock %}
+
+{% block content %}
+<h1>PureScript Examples</h1>
+
+<h2>Examples</h2>
+
+<ul>
+{% for example in examples %}
+  <li>
+    <a href="example/{{ example }}">{{ example }}</a>
+  </li>
+{% endfor %}
+</ul>
+{% endblock %}
