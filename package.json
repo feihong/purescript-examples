@@ -1,0 +1,9 @@
+{
+  "name": "purescript-examples",
+  "version": "1.0.0",
+  "repository": "git@github.com:feihong/purescript-examples",
+  "license": "MIT",
+  "dependencies": {
+    "xhr2": "^0.1.4"
+  }
+}
